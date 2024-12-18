@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Viewer</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        background: black;
+    }
+
+    img {
+        display: block;
+        max-width: 100%;
+        max-height: 100vh;
+    }
+    
+    div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 94vh;
+    }
+
+    h1,p{
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+</style>
+<body>
+
+    <br>
+    <h1>Bekijk 3D Object in AR</h1>
+    <div>
+        <a id="arLink" href="#">
+            <img id="arImage" src="Render-v1.png" alt="Render">
+        </a>
+    </div>
+
+        <script>
+        // Functie om te detecteren welk type apparaat de gebruiker heeft
+        function detectDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (/android/.test(userAgent)) {
+                return 'android';
+            } else if (/iphone|ipad|ipod/.test(userAgent)) {
+                return 'ios';
+            }
+            return 'unknown';
+        }
+
+        // AR link instellen op basis van het apparaat
+        const arLink = document.getElementById('arLink');
+        const device = detectDevice();
+
+        if (device === 'android') {
+            arLink.href = "intent://arvr.google.com/scene-viewer/1.0?file=https://github.com/kannotlogin/Cat-ar/raw/refs/heads/main/Cat.glb#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end="; // Vervang door jouw GLB-pad
+            arLink.style.display = "block";
+        } else if (device === 'ios') {
+            arLink.href = "Cat.usdz"; // Vervang door jouw USDZ-pad
+            arLink.setAttribute('rel', 'ar');
+            arLink.style.display = "block";
+        } else {
+            arLink.innerHTML = "<p>Dit apparaat ondersteunt geen AR.</p>";
+        }
+    </script>
+</body>
+</html>
